@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import algonquin.cst2335.yiyun.databinding.ActivityMainBinding;
-import data.MainViewModel;
+import algonquin.cst2335.yiyun.data.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding variableBinding;
