@@ -20,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
 
         variableBinding.mybutton.setOnClickListener(click -> {
             model.editString.postValue(variableBinding.myedittext.getText().toString());
-            variableBinding.myedittext.setText("Your edit text has:" + model.editString);
+//            variableBinding.myedittext.setText("Your edit text has:" + model.editString);
         });
 
         model.editString.observe(this, s -> {
-            variableBinding.myedittext.setText("Your edit text has:" + s);
+            variableBinding.textview.setText("Your edit text has:" + s);
         });
 
         model.isSelected.observe(this, selected -> {

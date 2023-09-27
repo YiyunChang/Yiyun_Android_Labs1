@@ -1,64 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="ui.MainActivity">
-
-    <TextView
-        android:id="@+id/textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_message" />
+    android:id="@+id/relativeLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="visible"
+    tools:context="algonquin.cst2335.yiyun.ui.MainActivity">
 
     <Button
-        android:id="@+id/mybutton"
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:text="@string/button_message" />
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="Button 1"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:id="@+id/mycheckbox"
+    <Button
+        android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/compoundbtn_message" />
+        android:layout_marginStart="32dp"
+        android:text="Button 2"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button1"
+        app:layout_constraintTop_toTopOf="@+id/button1" />
 
-    <Switch
-        android:id="@+id/myswitch"
+    <Button
+        android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/compoundbtn_message" />
-
-    <RadioButton
-        android:id="@+id/myradiobtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/compoundbtn_message" />
-
-    <ImageView
-        android:id="@+id/mypicture"
-        android:contentDescription="an image of the college"
-        android:src="@drawable/lab2image"
-        android:layout_width="100dp"
-        android:layout_height="50dp" />
-
-    <ImageButton
-        android:id="@+id/myimagebtn"
-        android:contentDescription="an image of the college"
-        android:src="@drawable/lab2image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/myedittext"
-        android:inputType="textNoSuggestions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/edit_message"
-        android:autofillHints="@string/hint_message" />
+        android:layout_marginStart="32dp"
+        android:text="Button 3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintTop_toTopOf="@+id/button2" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
