@@ -1,59 +1,57 @@
 package algonquin.cst2335.yiyun.ui;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import android.os.Bundle;
-import android.widget.Toast;
 
-import algonquin.cst2335.yiyun.databinding.ActivityMainBinding;
-import algonquin.cst2335.yiyun.data.MainViewModel;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
+import android.widget.Switch;
+import androidx.appcompat.app.AppCompatActivity;
+import java.util.Locale;
+import algonquin.cst2335.yiyun.R;
 
 public class MainActivity extends AppCompatActivity {
-    private ActivityMainBinding variableBinding;
-    private MainViewModel model;
+
+    private ImageView imageView;
+    private Switch sw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        model = new ViewModelProvider(this).get(MainViewModel.class);
-        variableBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(variableBinding.getRoot());
+        setContentView(R.layout.activity_main);
 
-        variableBinding.mybutton.setOnClickListener(click -> {
-            model.editString.postValue(variableBinding.myedittext.getText().toString());
-//            variableBinding.myedittext.setText("Your edit text has:" + model.editString);
-        });
+        imageView = findViewById(R.id.flagview);
+        sw = findViewById(R.id.switch1);
 
-        model.editString.observe(this, s -> {
-            variableBinding.textview.setText("Your edit text has:" + s);
+        sw.setOnCheckedChangeListener((btn, isChecked) -> {
+            if (isChecked) {
+                setAppLocale("zh");
+                startRotationAnimation();
+            } else {
+                setAppLocale("en");
+                stopRotationAnimation();
+            }
         });
+    }
 
-        model.isSelected.observe(this, selected -> {
-            CharSequence text = "The value is now:" + variableBinding.mycheckbox.isChecked();
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(this, text, duration);
-            toast.show();
-            variableBinding.mycheckbox.setChecked(selected);
-            variableBinding.myswitch.setChecked(selected);
-            variableBinding.myradiobtn.setChecked(selected);
-        });
+    private void setAppLocale(String languageCode) {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.setLocale(locale);
+        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+    }
 
-        variableBinding.mycheckbox.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            model.isSelected.postValue(variableBinding.mycheckbox.isChecked());
-        });
+    private void startRotationAnimation() {
+        RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(5000);
+        rotate.setRepeatCount(Animation.INFINITE);
+        rotate.setInterpolator(new LinearInterpolator());
+        imageView.startAnimation(rotate);
+    }
 
-        variableBinding.myswitch.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            model.isSelected.postValue(variableBinding.myswitch.isChecked());
-        });
-
-        variableBinding.myradiobtn.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            model.isSelected.postValue(variableBinding.myradiobtn.isChecked());
-        });
-
-        variableBinding.myimagebtn.setOnClickListener(click -> {
-            CharSequence text = "The width=" + variableBinding.myimagebtn.getWidth() + " and height=" + variableBinding.myimagebtn.getHeight();
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(this, text, duration);
-            toast.show();
-        });
+    private void stopRotationAnimation() {
+        imageView.clearAnimation();
     }
 }
