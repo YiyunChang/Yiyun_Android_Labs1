@@ -1,64 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ui.MainActivity">
+    android:padding="16dp">
 
+    <!-- Text View for "Enter your email address:" -->
     <TextView
-        android:id="@+id/textview"
+        android:id="@+id/textViewEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_message" />
+        android:text="Enter your email address:"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
-    <Button
-        android:id="@+id/mybutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:text="@string/button_message" />
-
-    <CheckBox
-        android:id="@+id/mycheckbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/compoundbtn_message" />
-
-    <Switch
-        android:id="@+id/myswitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/compoundbtn_message" />
-
-    <RadioButton
-        android:id="@+id/myradiobtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/compoundbtn_message" />
-
-    <ImageView
-        android:id="@+id/mypicture"
-        android:contentDescription="an image of the college"
-        android:src="@drawable/lab2image"
-        android:layout_width="100dp"
-        android:layout_height="50dp" />
-
-    <ImageButton
-        android:id="@+id/myimagebtn"
-        android:contentDescription="an image of the college"
-        android:src="@drawable/lab2image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+    <!-- Edit Text for Email Input -->
     <EditText
-        android:id="@+id/myedittext"
-        android:inputType="textNoSuggestions"
+        android:id="@+id/editTextEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Type email here"
+        android:inputType="textEmailAddress"
+        android:layout_below="@id/textViewEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp" />
+
+    <!-- Text View for "Type your password:" -->
+    <TextView
+        android:id="@+id/textViewPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/edit_message"
-        android:autofillHints="@string/hint_message" />
+        android:text="Type your password:"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:layout_below="@id/editTextEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
 
+    <!-- Edit Text for Password Input -->
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_below="@id/textViewPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp" />
 
-</LinearLayout>
+    <!-- Login Button -->
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:textSize="18sp"
+        android:textColor="#FFF"
+        android:background="#007ACC"
+        android:layout_below="@id/editTextPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp" />
+
+</RelativeLayout>

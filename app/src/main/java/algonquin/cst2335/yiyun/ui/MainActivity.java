@@ -1,59 +1,119 @@
 package algonquin.cst2335.yiyun.ui;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.util.Log;
+import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
+import algonquin.cst2335.yiyun.R;
 import algonquin.cst2335.yiyun.databinding.ActivityMainBinding;
 import algonquin.cst2335.yiyun.data.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private ActivityMainBinding variableBinding;
     private MainViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        model = new ViewModelProvider(this).get(MainViewModel.class);
-        variableBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(variableBinding.getRoot());
+        setContentView(R.layout.activity_main);
 
-        variableBinding.mybutton.setOnClickListener(click -> {
-            model.editString.postValue(variableBinding.myedittext.getText().toString());
-            variableBinding.myedittext.setText("Your edit text has:" + model.editString);
-        });
+        setupLoginButton();
+        loadSavedEmailAddress();
 
-        model.editString.observe(this, s -> {
-            variableBinding.myedittext.setText("Your edit text has:" + s);
-        });
+        Log.w(TAG, "onCreate: The activity is being created.");
+    }
 
-        model.isSelected.observe(this, selected -> {
-            CharSequence text = "The value is now:" + variableBinding.mycheckbox.isChecked();
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(this, text, duration);
-            toast.show();
-            variableBinding.mycheckbox.setChecked(selected);
-            variableBinding.myswitch.setChecked(selected);
-            variableBinding.myradiobtn.setChecked(selected);
-        });
-
-        variableBinding.mycheckbox.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            model.isSelected.postValue(variableBinding.mycheckbox.isChecked());
-        });
-
-        variableBinding.myswitch.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            model.isSelected.postValue(variableBinding.myswitch.isChecked());
-        });
-
-        variableBinding.myradiobtn.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            model.isSelected.postValue(variableBinding.myradiobtn.isChecked());
-        });
-
-        variableBinding.myimagebtn.setOnClickListener(click -> {
-            CharSequence text = "The width=" + variableBinding.myimagebtn.getWidth() + " and height=" + variableBinding.myimagebtn.getHeight();
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(this, text, duration);
-            toast.show();
+    private void setupLoginButton() {
+        Button loginButton = findViewById(R.id.buttonLogin);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String emailAddress = getEmailAddressFromEditText();
+                saveEmailAddressToSharedPreferences(emailAddress);
+                navigateToSecondActivity(emailAddress);
+            }
         });
     }
-}
+
+    private String getEmailAddressFromEditText() {
+        EditText emailEditText = findViewById(R.id.editTextEmail);
+        return emailEditText.getText().toString();
+    }
+
+    private void saveEmailAddressToSharedPreferences(String emailAddress) {
+        // Save the email address to SharedPreferences
+        // Replace "MyData" with your SharedPreferences file name
+        getSharedPreferences("MyData", MODE_PRIVATE)
+                .edit()
+                .putString("LoginName", emailAddress)
+                .apply();
+    }
+
+    private void navigateToSecondActivity(String emailAddress) {
+        Intent nextPage = new Intent(MainActivity.this, algonquin.cst2335.yiyun.SecondActivity.class);
+        nextPage.putExtra("EmailAddress", emailAddress);
+        startActivity(nextPage);
+    }
+
+    private void loadSavedEmailAddress() {
+        String emailAddress = getEmailAddressFromSharedPreferences();
+        setEmailAddressToEditText(emailAddress);
+    }
+
+    private String getEmailAddressFromSharedPreferences() {
+        // Load the saved email address from SharedPreferences
+        // Replace "MyData" with your SharedPreferences file name
+        return getSharedPreferences("MyData", MODE_PRIVATE)
+                .getString("LoginName", "");
+    }
+
+    private void setEmailAddressToEditText(String emailAddress) {
+        EditText emailEditText = findViewById(R.id.editTextEmail);
+        emailEditText.setText(emailAddress);
+    }
+
+    // Other lifecycle methods (onStart, onResume, onPause, onStop, onDestroy) can remain unchanged.
+
+
+    @Override
+        protected void onStart() {
+            super.onStart();
+
+            Log.w(TAG, "onStart: The activity is about to become visible.");
+        }
+
+        @Override
+        protected void onResume() {
+            super.onResume();
+
+            Log.w(TAG, "onResume: The activity has become visible and is now in the foreground.");
+        }
+
+        @Override
+        protected void onPause() {
+            super.onPause();
+
+            Log.w(TAG, "onPause: The activity is partially obscured or going into the background.");
+        }
+
+        @Override
+        protected void onStop() {
+            super.onStop();
+
+            Log.w(TAG, "onStop: The activity is no longer visible.");
+        }
+
+        @Override
+        protected void onDestroy() {
+            super.onDestroy();
+
+            Log.w(TAG, "onDestroy: The activity is being destroyed.");
+        }}
+    // Saving email address
+
