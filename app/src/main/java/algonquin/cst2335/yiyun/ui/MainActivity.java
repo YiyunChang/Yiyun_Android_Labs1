@@ -1,59 +1,109 @@
 package algonquin.cst2335.yiyun.ui;
+
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
+
 import android.os.Bundle;
-import android.widget.Toast;
 
 import algonquin.cst2335.yiyun.databinding.ActivityMainBinding;
-import algonquin.cst2335.yiyun.data.MainViewModel;
 
+/** This class is the starting point of the application
+ * @author Shuyang Li
+ * @version 1.0
+ */
 public class MainActivity extends AppCompatActivity {
-    private ActivityMainBinding variableBinding;
-    private MainViewModel model;
 
+    /**
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *        shut down then this Bundle contains the data it most recently
+     *        supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        model = new ViewModelProvider(this).get(MainViewModel.class);
-        variableBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(variableBinding.getRoot());
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        variableBinding.mybutton.setOnClickListener(click -> {
-            model.editString.postValue(variableBinding.myedittext.getText().toString());
-            variableBinding.myedittext.setText("Your edit text has:" + model.editString);
-        });
+        binding.loginButton.setOnClickListener(click -> {
+            String userInput = binding.passwordText.getText().toString();
 
-        model.editString.observe(this, s -> {
-            variableBinding.myedittext.setText("Your edit text has:" + s);
-        });
+            boolean hasUpperAndLowerCase = containsUpperAndLowerCase(userInput);
+            boolean hasDigit = containsDigit(userInput);
+            boolean hasSpecialChar = containsSpecialCharacters(userInput);
 
-        model.isSelected.observe(this, selected -> {
-            CharSequence text = "The value is now:" + variableBinding.mycheckbox.isChecked();
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(this, text, duration);
-            toast.show();
-            variableBinding.mycheckbox.setChecked(selected);
-            variableBinding.myswitch.setChecked(selected);
-            variableBinding.myradiobtn.setChecked(selected);
-        });
+            String message = "You shall not pass!";
+            boolean hasMissing = false;
 
-        variableBinding.mycheckbox.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            model.isSelected.postValue(variableBinding.mycheckbox.isChecked());
-        });
+            if (!hasUpperAndLowerCase || !hasDigit || !hasSpecialChar) {
+                //message += "missing upper and lower case letter";
+                hasMissing = true;
+            }
+            if (!hasDigit) {
+                //message += " missing digits";
+                hasMissing = true;
+            }
+            if (!hasSpecialChar) {
+                //message += " missing special characters *, #, ?, ";
+                hasMissing = true;
+            }
 
-        variableBinding.myswitch.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            model.isSelected.postValue(variableBinding.myswitch.isChecked());
+            if (hasMissing) {
+                binding.responseText.setText(message);
+            } else {
+                binding.responseText.setText("Your password is complex enough.");
+            }
         });
+    }
 
-        variableBinding.myradiobtn.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            model.isSelected.postValue(variableBinding.myradiobtn.isChecked());
-        });
+    /** This function checks str and returns true if str
+     *  has an upper and lower case letter in it
+     * @param str a String str to store user input
+     * @return Returns true if str has upper and lower case, otherwise false
+     */
+    boolean containsUpperAndLowerCase(String str) {
+        boolean foundUpper = false;
+        boolean foundLower = false;
 
-        variableBinding.myimagebtn.setOnClickListener(click -> {
-            CharSequence text = "The width=" + variableBinding.myimagebtn.getWidth() + " and height=" + variableBinding.myimagebtn.getHeight();
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(this, text, duration);
-            toast.show();
-        });
+        for (int i = 0; i < str.length(); i++) {
+            //get each character in the string
+            char c = str.charAt(i);
+            if (Character.isLowerCase(c)) {
+                foundLower = true;
+            } else if (Character.isUpperCase(c)) {
+                foundUpper = true;
+            }
+        }
+        //after looked at every character
+        return foundLower && foundUpper;
+    }
+
+    /** This function checks str and returns true if str
+     *  has digits in it
+     * @param str a String str to store user input
+     * @return Returns true if str has digits, otherwise false
+     */
+    boolean containsDigit(String str) {
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (Character.isDigit(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** This function checks str and returns true if str
+     *  has special characters in it
+     * @param str a String str to store user input
+     * @return Returns true if str has special characters, otherwise false
+     */
+    boolean containsSpecialCharacters(String str) {
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c == '*' || c == '#' || c == '?') {
+                return true;
+            }
+        }
+        return false;
     }
 }
