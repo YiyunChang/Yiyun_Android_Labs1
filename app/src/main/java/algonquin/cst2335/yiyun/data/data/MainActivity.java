@@ -1,6 +1,4 @@
-package algonquin.cst2335.yiyun;
-
-import androidx.appcompat.app.AppCompatActivity;
+package algonquin.cst2335.yiyun.data.data;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,11 +6,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import algonquin.cst2335.yiyun.R;
+
 /**
  * The `MainActivity` class is the main entry point for the Android application.
  * It provides a user interface with an EditText for entering a password, a Button to initiate the password check, and a TextView for displaying messages.
  *
- * @author Chang Yiyun
+ * @author Shuyang Li
  * @version 1.0
  */
 public class MainActivity extends AppCompatActivity {
@@ -109,11 +111,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(algonquin.cst2335.yiyun.R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
-        TextView tv = findViewById(algonquin.cst2335.yiyun.R.id.textView);
-        EditText et = findViewById(algonquin.cst2335.yiyun.R.id.editText);
-        Button btn = findViewById(algonquin.cst2335.yiyun.R.id.loginButton);
+        TextView tv = findViewById(R.id.textView);
+        EditText et = findViewById(R.id.editText);
+        Button btn = findViewById(R.id.loginButton);
 
         btn.setOnClickListener(clk -> {
             String password = et.getText().toString();
